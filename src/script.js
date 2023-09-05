@@ -271,7 +271,7 @@ firstSectionTimeline.fromTo(
 
 const firstSectionScrollTrigger = ScrollTrigger.create({
   trigger: '#first-section',
-  start: 'clamp(top top)',
+  start: '-=5 top',
   end: 'bottom top',
   animation: firstSectionTimeline,
   markers: true,
