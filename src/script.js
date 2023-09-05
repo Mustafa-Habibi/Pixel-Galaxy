@@ -35,8 +35,8 @@ const axesHelper = new THREE.AxesHelper(30);
  * Galaxy
  */
 const parameters = {};
-parameters.count = 30000;
-parameters.size = 0.005;
+parameters.count = 20000;
+parameters.size = 0.0075;
 parameters.radius = 5;
 parameters.branches = 3;
 parameters.spin = 0.2;
