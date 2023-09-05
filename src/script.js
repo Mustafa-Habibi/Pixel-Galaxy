@@ -35,8 +35,8 @@ const axesHelper = new THREE.AxesHelper(30);
  * Galaxy
  */
 const parameters = {};
-parameters.count = 100000;
-parameters.size = 0.001;
+parameters.count = 30000;
+parameters.size = 0.005;
 parameters.radius = 5;
 parameters.branches = 3;
 parameters.spin = 0.2;
@@ -300,31 +300,43 @@ secondSectionAnimation.fromTo(
   0
 );
 
+let prevGalaxyCurrentBrunch = -1;
+let prevGalaxyRandomnessPower = -1;
+
 const secondSectionScrollTrigger = ScrollTrigger.create({
   trigger: '#second-section',
   start: 'top top',
   end: 'bottom top',
   animation: secondSectionAnimation,
-  // markers: true,
   scrub: 1,
   onUpdate() {
     const galaxyCurrentBrunch = Math.ceil(
-      secondSectionScrollTrigger.progress * 10 + 2 === 2
+      secondSectionScrollTrigger.progress * 29 + 2 === 2
         ? 3
-        : secondSectionScrollTrigger.progress * 10 + 2
+        : secondSectionScrollTrigger.progress * 29 + 2
     );
     const galaxyRandomnessPower = Math.ceil(
       secondSectionScrollTrigger.progress * 10 + 3
     );
 
-    parameters.branches = galaxyCurrentBrunch;
-    parameters.randomnessPower = galaxyRandomnessPower;
+    if (
+      galaxyCurrentBrunch !== prevGalaxyCurrentBrunch ||
+      galaxyRandomnessPower !== prevGalaxyRandomnessPower
+    ) {
+      parameters.branches = galaxyCurrentBrunch;
+      parameters.randomnessPower = galaxyRandomnessPower;
 
-    generateGalaxy();
+      generateGalaxy();
 
-    console.log(galaxyCurrentBrunch);
+      console.log(galaxyCurrentBrunch);
+
+      // Update the previous values
+      prevGalaxyCurrentBrunch = galaxyCurrentBrunch;
+      prevGalaxyRandomnessPower = galaxyRandomnessPower;
+    }
   },
 });
+
 // secondSectionScrollTrigger.disable();
 
 /**
