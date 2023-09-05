@@ -17,6 +17,8 @@
     width: 100px;
     height: 200vh;
     opacity: 0.5;
+    position: relative;
+    z-index: -2;
 }
 
 #first-section{

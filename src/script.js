@@ -274,7 +274,7 @@ const firstSectionScrollTrigger = ScrollTrigger.create({
   start: '-=5 top',
   end: 'bottom top',
   animation: firstSectionTimeline,
-  markers: true,
+  // markers: true,
   scrub: 1,
 
   onUpdate() {
