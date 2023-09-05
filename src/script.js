@@ -19,7 +19,7 @@ THREE.ColorManagement.enabled = false;
 // Debug
 const gui = new dat.GUI();
 gui.close();
-// gui.hide();
+gui.hide();
 
 // Canvas
 const canvas = document.querySelector('.galaxy-canvas');
@@ -271,10 +271,10 @@ firstSectionTimeline.fromTo(
 
 const firstSectionScrollTrigger = ScrollTrigger.create({
   trigger: '#first-section',
-  start: 'top top',
+  start: 'clamp(top top)',
   end: 'bottom top',
   animation: firstSectionTimeline,
-  // markers: true,
+  markers: true,
   scrub: 1,
 
   onUpdate() {
@@ -296,7 +296,7 @@ secondSectionAnimation.fromTo(
 secondSectionAnimation.fromTo(
   cameraRotationBox.rotation,
   { x: 0, y: 2 * Math.PI, z: 0 },
-  { x: 0, y: 0, z: 0, duration: 1, ease: 'linear' },
+  { x: 0, y: 2 * 2 * Math.PI, z: 0, duration: 1, ease: 'linear' },
   0
 );
 
@@ -331,6 +331,7 @@ const secondSectionScrollTrigger = ScrollTrigger.create({
  * Theatre
  */
 studio.initialize();
+studio.ui.hide();
 
 const firstSectionProject = core.getProject('First Section', {
   state: firstSectionState,
