@@ -29,7 +29,7 @@ const scene = new THREE.Scene();
 
 // Axes helper
 const axesHelper = new THREE.AxesHelper(30);
-// scene.add(axesHelper);
+scene.add(axesHelper);
 
 /**
  * Galaxy
@@ -283,7 +283,6 @@ const firstSectionScrollTrigger = ScrollTrigger.create({
     );
   },
 });
-// firstSectionScrollTrigger.disable();
 
 // *Second section animation
 const secondSectionAnimation = gsap.timeline({});
@@ -296,7 +295,7 @@ secondSectionAnimation.fromTo(
 secondSectionAnimation.fromTo(
   cameraRotationBox.rotation,
   { x: 0, y: 2 * Math.PI, z: 0 },
-  { x: 0, y: 2 * 2 * Math.PI, z: 0, duration: 1, ease: 'linear' },
+  { x: 0, y: 2 * Math.PI + 2 * Math.PI, z: 0, duration: 1, ease: 'linear' },
   0
 );
 
@@ -337,7 +336,104 @@ const secondSectionScrollTrigger = ScrollTrigger.create({
   },
 });
 
+// *Third section animation
+const thirdSectionTimeline = gsap.timeline({});
+
+thirdSectionTimeline.fromTo(
+  camera.position,
+  { x: 2, y: -9, z: 2 },
+  { x: 5, y: 3, z: 5, duration: 1, ease: 'linear' },
+  0
+);
+thirdSectionTimeline.fromTo(
+  cameraRotationBox.rotation,
+  { x: 0, y: 2 * Math.PI + 2 * Math.PI, z: 0 },
+  {
+    x: 0,
+    y: 2 * Math.PI + Math.PI + 2 * Math.PI,
+    z: 0,
+    duration: 1,
+    ease: 'linear',
+  },
+  0
+);
+
+const thirdSectionScrollTrigger = ScrollTrigger.create({
+  trigger: '#third-section',
+  start: 'top top',
+  end: 'bottom top',
+  animation: thirdSectionTimeline,
+  // markers: true,
+  scrub: 1,
+
+  onUpdate() {
+    const percentageProgress = Math.round(
+      thirdSectionScrollTrigger.progress * 100
+    );
+  },
+});
+
+// *Fourth section animation
+const fourthSectionTimeline = gsap.timeline({});
+
+fourthSectionTimeline.fromTo(
+  camera.position,
+  { x: 5, y: 3, z: 5 },
+  { x: 0.01, y: 5, z: 0.01, duration: 1, ease: 'linear' },
+  0
+);
+fourthSectionTimeline.fromTo(
+  cameraRotationBox.rotation,
+  { x: 0, y: 2 * Math.PI + Math.PI + 2 * Math.PI, z: 0 },
+  {
+    x: 0,
+    y: 2 * Math.PI + Math.PI + 2 * Math.PI + 2 * Math.PI,
+    z: 0,
+    duration: 1,
+    ease: 'linear',
+  },
+  0
+);
+
+let prevGalaxyBranch = -1;
+
+const fourthSectionScrollTrigger = ScrollTrigger.create({
+  trigger: '#fourth-section',
+  start: 'top top',
+  end: 'bottom top',
+  animation: fourthSectionTimeline,
+  // markers: true,
+  scrub: 1,
+
+  onUpdate() {
+    const galaxyBranch = Math.ceil(
+      30 - fourthSectionScrollTrigger.progress * 27
+    );
+    const startValue = 0.2;
+    const endValue = -1;
+    const progress = fourthSectionScrollTrigger.progress;
+
+    // Linear interpolation formula
+    const galaxySpinAngle = startValue + (endValue - startValue) * progress;
+
+    if (galaxyBranch !== prevGalaxyBranch) {
+      parameters.branches = galaxyBranch;
+      parameters.spinAngle = galaxySpinAngle;
+
+      generateGalaxy();
+
+      // Update the previous values
+      prevGalaxyCurrentBrunch = galaxyBranch;
+    }
+
+    console.log(galaxySpinAngle, parameters.spinAngle);
+  },
+});
+
+// firstSectionScrollTrigger.disable();
 // secondSectionScrollTrigger.disable();
+// thirdSectionScrollTrigger.disable();
+// fourthSectionScrollTrigger.disable();
 
 /**
  * Theatre
@@ -379,3 +475,6 @@ firstSectionGalaxy.onValuesChange((values) => {
 
   cameraRotationBox.rotation.set(rotationX, rotationY, rotationZ);
 });
+
+// Galaxy Spin Angle from 0.2 to -1
+// Branches from 30 to 3
